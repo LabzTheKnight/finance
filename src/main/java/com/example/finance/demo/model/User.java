@@ -1,21 +1,35 @@
 package com.example.finance.demo.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 
 @Entity
-@Table(name = "users")public class User {
+@Table(name = "users")  
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String username;
     private String password;
-     
+    private boolean enabled;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonManagedReference
+    private List<UserCategory> userCategories;
+    
     public Long getId() {
         return id;
     }
@@ -39,5 +53,13 @@ import jakarta.persistence.Table;
     public void setPassword(String password) {
         this.password = password;
     }
+    public boolean getEnabled() {
+        return enabled;
+    }
+    public void setEnabled(boolean enabled) {
+        this.enabled = true;
+    }
 
 }
+
+
